@@ -16,7 +16,8 @@ public class ByteCar {
     }
   }  
   
-  public static void main_menu(){
+  
+  public static void main_menu() {
     System.out.println("Who are you? \n1)Admin\n2)Client");
     String typeOfUser =  keyboardInput.nextLine();
 
@@ -28,7 +29,7 @@ public class ByteCar {
   }
   
   
-  public static void login_admin(){
+  public static void login_admin() {
     System.out.println("\n--> Enter username: ");
     String adminUser = keyboardInput.nextLine();                                                                   
     
@@ -43,7 +44,7 @@ public class ByteCar {
   }
   
   
-  public static void admin_menu(){
+  public static void admin_menu() {
     System.out.println("\nWelcome to the Admin Menu 👩🏽‍💼\n"
                         + "\n1. Add new vehicles to inventory.\n"
                         + "2. Add special discounts.\n"
@@ -64,7 +65,7 @@ public class ByteCar {
   }
   
   
-  public static void client_menu(){
+  public static void client_menu() {
     System.out.println("\nWelcome to ByteCar 🚘\n"
                         + "\n1. Register new client.\n"
                         + "2. Log-in as client.\n"
@@ -83,7 +84,7 @@ public class ByteCar {
   }
   
   
-   public static boolean is_confirming(String phraseToShow){
+   public static boolean is_confirming(String phraseToShow) {
       boolean isContinued = true;
       boolean breakLoop = true;
       do {
@@ -111,9 +112,8 @@ public class ByteCar {
   
   
   // METODOS DEL ADMIN
-  public static void add_new_vehicle(){
+  public static void add_new_vehicle() {
     boolean addNewCar;
-    
     
     do {
       System.out.println("Enter your car brand");
@@ -128,7 +128,7 @@ public class ByteCar {
       validate_license_plate();
       
       double dailyPrice = validate_price();
-      System.out.println("Precio validado: " + dailyPrice);
+      System.out.println("\nPrecio validado: " + dailyPrice);
       carInvetory[carRow][4] = Double.toString(dailyPrice);
       
       boolean changeSomeValue = is_confirming("\nDo you want to change any value? (except license plate)"); 
@@ -145,9 +145,10 @@ public class ByteCar {
         carRow++;
       }else{
         carRow++;
-        System.out.println("Lista de Vehiculos");
+        System.out.println("\nCars on inventory");
+        System.out.println("\n Brand, Model, Year, License, Price/Day");
         for (int i = 0; i < carRow; i++) {
-          System.out.print(i+") ");
+          System.out.print((i + 1) + ") ");
           for (int j = 0; j < 5; j++) {
             System.out.print(carInvetory[i][j] + ", ");
           }
@@ -161,18 +162,18 @@ public class ByteCar {
   
   
   public static boolean contains_value(String[][] matrix, String target) {
-      for (String[] row : matrix) {
-        for (String element : row) {
-          try {
+    for (String[] row : matrix) {
+      for (String element : row) {
+        try {
           if (element.equals(target)) {
             return true;
-            }
-          } catch (NullPointerException e){
           }
+        } catch (NullPointerException e){
         }
       }
-      return false;
     }
+    return false;
+  }
    
    
   public static void change_specific_value() {
@@ -210,7 +211,7 @@ public class ByteCar {
       change_specific_value();
     }
     
-    System.out.println("NEW VALUES");
+    System.out.println("NEW VALUES\n");
     for (int i = carRow; i < (carRow + 1); i++) {                           // Solo imprime el registro actualizado
       System.out.print(i+") ");
       for (int j = 0; j < 4; j++) {
@@ -259,17 +260,17 @@ public class ByteCar {
   public static void validate_license_plate() {
     boolean isLicenseFound;
     do {
-        System.out.println("Enter your car license plate");
-        String licenseTarget = keyboardInput.nextLine(); 
-        isLicenseFound = contains_value(carInvetory, licenseTarget);
+      System.out.println("Enter your car license plate");
+      String licenseTarget = keyboardInput.nextLine(); 
+      isLicenseFound = contains_value(carInvetory, licenseTarget);
 
-        if (isLicenseFound) {
-          System.out.println("\n❌ The license plate '" + licenseTarget + "' is already registered on inventory. ❌\n");
-        } else {
-          System.out.println("\n✅ The license plate '" + licenseTarget + "' is not registered on inventory, you're good to go. ✅\n");
-          carInvetory[carRow][3] = licenseTarget;  
-        }
-      } while(isLicenseFound);
+      if (isLicenseFound) {
+        System.out.println("\n❌ The license plate '" + licenseTarget + "' is already registered on inventory. ❌\n");
+      } else {
+        System.out.println("\n✅ The license plate '" + licenseTarget + "' is not registered on inventory, you're good to go. ✅\n");
+        carInvetory[carRow][3] = licenseTarget;  
+      }
+    } while(isLicenseFound);
   }
   
   
