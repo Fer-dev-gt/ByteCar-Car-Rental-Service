@@ -7,7 +7,11 @@ import java.util.Scanner;
 public class ByteCar {
   static Scanner keyboardInput = new Scanner(System.in);
   static String[][] carInvetory = new String[20][5];
+  static String[][] usersDatabase = new String[20][3];
+  static int[][] specialDiscounts = new int[20][2];
   static int carRow = 0;
+  static int discountRow = 0;
+  static int userRow = 0;
 
   
   public static void main(String[] args) {
@@ -143,7 +147,7 @@ public class ByteCar {
       
       if(addNewCar) {
         carRow++;
-      }else{
+      } else {
         carRow++;
         System.out.println("\nCars on inventory");
         System.out.println("\n Brand, Model, Year, License, Price/Day");
@@ -224,7 +228,63 @@ public class ByteCar {
 
   
   public static void add_special_discount() {
+    int minimunDays;
+    int percentageDiscount;
+    boolean addNewDiscount;
+    
     System.out.println("Special discount");
+    while(true) {
+      System.out.println("Add minimun days to quailified for a discount: ");
+      try {
+        minimunDays = parseInt(keyboardInput.nextLine()); 
+      } catch (NumberFormatException e) {
+        System.out.println("❌ Enter a number not a String ❌");
+        continue;
+      }
+      
+      if(minimunDays > 0) {
+        specialDiscounts[discountRow][0] = minimunDays;
+        break;
+      } else {
+        System.out.println("❌ Invalid price. Please enter a positive value. ❌");
+      }
+    } 
+    
+    while(true) {
+      System.out.println("Add percentage of discount (between 1 and 99)");
+      try {
+        percentageDiscount = parseInt(keyboardInput.nextLine()); 
+      } catch (NumberFormatException e) {
+        System.out.println("❌ Enter a number not a String ❌");
+        continue;
+      }
+      
+      if(percentageDiscount > 0 && percentageDiscount < 100) {
+        specialDiscounts[discountRow][1] = percentageDiscount; 
+        break;
+      } else {
+        System.out.println("❌ Invalid input. Please enter a value bewtween 1 and 99. ❌");
+      }
+    }
+    
+    addNewDiscount = is_confirming("\nDo you want to add new register?"); 
+    
+    if(addNewDiscount) {
+        discountRow++;
+        add_special_discount();
+    } else {
+      discountRow++;
+      System.out.println("\nCurrent Discounts");
+      System.out.println("\n Minimun Days, Discount percentage");
+      for (int i = 0; i < discountRow; i++) {
+        System.out.print((i + 1) + ") ");
+        for (int j = 0; j < 2; j++) {
+          System.out.print(specialDiscounts[i][j] + ", ");
+        }
+        System.out.println();
+      }
+    }
+    admin_menu();
   }
   
     
@@ -278,19 +338,77 @@ public class ByteCar {
   
   // METODOS DEL CLIENTE
   public static void register_new_client() {
-    System.out.println("register");
+    int inputNIT;
+    System.out.println("Register your new Account");
+    while(true) {
+      try {
+        System.out.println("Enter your NIT");
+        inputNIT = parseInt(keyboardInput.nextLine()); 
+        String inputNitString = Integer.toString(inputNIT);
+        usersDatabase[userRow][0] = inputNitString;
+        break;
+      } catch (NumberFormatException e) {
+        System.out.println("❌ Enter a number not a String ❌");
+      }
+    }
+    System.out.println("Enter your first name");
+    usersDatabase[userRow][1] = keyboardInput.nextLine();
+    
+    System.out.println("Enter your last name");
+    usersDatabase[userRow][2] = keyboardInput.nextLine();
+    
+    System.out.println("This is your user Data\n");
+    for (int i = userRow; i < (userRow + 1); i++) {                           
+      System.out.println("Nit | First name | Last name");
+      for (int j = 0; j < 3; j++) {
+        System.out.print(usersDatabase[i][j] + ", ");
+      }
+    }
   }
   
   
   public static void login_client() {
-    System.out.println("\n--> Enter NIT: ");
-    String nitUser = keyboardInput.nextLine();                                                                   
+    boolean haveExistingAccount;
+    boolean accountExists;
+    haveExistingAccount = is_confirming("\nDo you have an account?"); 
     
-    if(nitUser.equals("a")){                      
-      client_menu();                                                                                             
-    }else{
-      System.out.println("\n❌ CREDENCIALES INCORRECTAS, INTENTE OTRA VEZ ❌\n");
-    } 
+    if(haveExistingAccount){
+      System.out.println("\n--> Enter NIT: ");
+      String nitUser = keyboardInput.nextLine();                                                                   
+
+      accountExists = contains_value(usersDatabase, nitUser);
+      if(accountExists){                      
+        client_menu();                                                                                             
+      }else{
+        System.out.println("\n❌ CREDENCIALES INCORRECTAS, INTENTE OTRA VEZ ❌\n");
+      } 
+    } else {
+      register_new_client();
+      login_client();
+    }
+  }
+  
+  
+  public static void validate_nit() {
+    boolean isNitFound;
+    int inputNIT;
+    try {
+      System.out.println("Enter your NIT");
+      inputNIT = parseInt(keyboardInput.nextLine()); 
+      String inputNitString = Integer.toString(inputNIT);
+      do {
+        isNitFound = contains_value(usersDatabase, inputNitString);
+        if (isNitFound) {
+          System.out.println("\n❌ This NIT '" + inputNitString + "' is already registered, try another one. ❌\n");
+        } else {
+          System.out.println("\n✅ This NIT '" + inputNitString + "' is not registered, you're good to go. ✅\n");
+          usersDatabase[userRow][0] = inputNitString;  
+        }
+      } while(isNitFound);
+    } catch (NumberFormatException e) {
+      System.out.println("❌ Enter a number not a String ❌");
+      validate_nit();
+    }
   }
   
   
