@@ -139,7 +139,7 @@ public class ByteCar {
    
       if(changeSomeValue) {
         change_specific_value();
-      } else {
+      }else{
         System.out.println("\nValidating entered values...\n");
       }
       
@@ -147,7 +147,7 @@ public class ByteCar {
       
       if(addNewCar) {
         carRow++;
-      } else {
+      }else{
         carRow++;
         System.out.println("\nCars on inventory");
         System.out.println("\n Brand, Model, Year, License, Price/Day");
@@ -196,11 +196,11 @@ public class ByteCar {
         }
         case 2 -> {
           System.out.println("Enter new Model value: ");
-          carInvetory[carRow][0] = keyboardInput.nextLine();
+          carInvetory[carRow][1] = keyboardInput.nextLine();
         }
         case 3 -> {
           System.out.println("Enter new Year value: ");
-          carInvetory[carRow][0] = keyboardInput.nextLine();
+          carInvetory[carRow][2] = keyboardInput.nextLine();
         }
         case 4 -> {
           double dailyPrice = validate_price();
@@ -225,7 +225,6 @@ public class ByteCar {
     }
   }
   
-
   
   public static void add_special_discount() {
     int minimunDays;
@@ -245,7 +244,7 @@ public class ByteCar {
       if(minimunDays > 0) {
         specialDiscounts[discountRow][0] = minimunDays;
         break;
-      } else {
+      }else{
         System.out.println("❌ Invalid price. Please enter a positive value. ❌");
       }
     } 
@@ -294,7 +293,16 @@ public class ByteCar {
   
     
   public static void show_users() {
-    System.out.println("Show users");
+    System.out.println("Lista de Usuarios registrados");
+    System.out.println("Nit | First name | Last name");
+    for (int i = 0; i < userRow; i++) {                           
+      System.out.print((i + 1) +") ");
+      for (int j = 0; j < 3; j++) {
+        System.out.print(usersDatabase[i][j] + ", ");
+      }
+      System.out.println();
+    }
+    admin_menu();
   }
   
   
@@ -306,7 +314,7 @@ public class ByteCar {
         dailyPrice = parseDouble(keyboardInput.nextLine());
         if (dailyPrice > 0) {
           break; // Exit the loop when a positive price is entered
-        } else {
+        }else{
           System.out.println("Invalid price. Please enter a positive value.");
         }
       } catch (NumberFormatException e) {
@@ -326,7 +334,7 @@ public class ByteCar {
 
       if (isLicenseFound) {
         System.out.println("\n❌ The license plate '" + licenseTarget + "' is already registered on inventory. ❌\n");
-      } else {
+      }else{
         System.out.println("\n✅ The license plate '" + licenseTarget + "' is not registered on inventory, you're good to go. ✅\n");
         carInvetory[carRow][3] = licenseTarget;  
       }
@@ -338,19 +346,9 @@ public class ByteCar {
   
   // METODOS DEL CLIENTE
   public static void register_new_client() {
-    int inputNIT;
     System.out.println("Register your new Account");
-    while(true) {
-      try {
-        System.out.println("Enter your NIT");
-        inputNIT = parseInt(keyboardInput.nextLine()); 
-        String inputNitString = Integer.toString(inputNIT);
-        usersDatabase[userRow][0] = inputNitString;
-        break;
-      } catch (NumberFormatException e) {
-        System.out.println("❌ Enter a number not a String ❌");
-      }
-    }
+    validate_nit();
+    
     System.out.println("Enter your first name");
     usersDatabase[userRow][1] = keyboardInput.nextLine();
     
@@ -364,6 +362,31 @@ public class ByteCar {
         System.out.print(usersDatabase[i][j] + ", ");
       }
     }
+    userRow++;
+  }
+  
+  
+  public static void validate_nit() {
+    boolean isNitFound = true;
+    String nitTarget;
+    int inputNIT;
+    do {
+      try {
+        System.out.println("Enter your NIT");
+        inputNIT = parseInt(keyboardInput.nextLine()); 
+        nitTarget = Integer.toString(inputNIT);
+        isNitFound = contains_value(usersDatabase, nitTarget);
+      } catch (NumberFormatException e) {
+        System.out.println("❌ Enter a number not a String ❌");
+        continue;
+      }
+      if (isNitFound) {
+        System.out.println("\n❌ This NIT '" + nitTarget + "' is already registered on inventory. ❌\n");
+      }else{
+        System.out.println("\n✅ This NIT '" + nitTarget + "' is not registered, you're good to go. ✅\n");
+        usersDatabase[userRow][0] = nitTarget;  
+      }
+    } while(isNitFound);
   }
   
   
@@ -375,45 +398,70 @@ public class ByteCar {
     if(haveExistingAccount){
       System.out.println("\n--> Enter NIT: ");
       String nitUser = keyboardInput.nextLine();                                                                   
-
       accountExists = contains_value(usersDatabase, nitUser);
-      if(accountExists){                      
+      
+      if(accountExists) {                      
         client_menu();                                                                                             
-      }else{
+      }else{ 
         System.out.println("\n❌ CREDENCIALES INCORRECTAS, INTENTE OTRA VEZ ❌\n");
       } 
-    } else {
+    }else{
       register_new_client();
       login_client();
     }
   }
   
   
-  public static void validate_nit() {
-    boolean isNitFound;
-    int inputNIT;
-    try {
-      System.out.println("Enter your NIT");
-      inputNIT = parseInt(keyboardInput.nextLine()); 
-      String inputNitString = Integer.toString(inputNIT);
-      do {
-        isNitFound = contains_value(usersDatabase, inputNitString);
-        if (isNitFound) {
-          System.out.println("\n❌ This NIT '" + inputNitString + "' is already registered, try another one. ❌\n");
-        } else {
-          System.out.println("\n✅ This NIT '" + inputNitString + "' is not registered, you're good to go. ✅\n");
-          usersDatabase[userRow][0] = inputNitString;  
-        }
-      } while(isNitFound);
-    } catch (NumberFormatException e) {
-      System.out.println("❌ Enter a number not a String ❌");
-      validate_nit();
-    }
-  }
-  
-  
   public static void make_reservation() {
-    System.out.println("reservation");
+    System.out.println("\n+++ Available cars +++");
+    if(carRow > 0) {
+      for (int i = 0; i < carRow ; i++) {                           
+        System.out.print((i+1)+") " + carInvetory[i][0] + ", ");
+        System.out.print(carInvetory[i][1] + ", ");
+        System.out.print(carInvetory[i][4] + ", ");
+        System.out.print(carInvetory[i][3] + " \n");
+      }
+    }else{
+      System.out.println("There are NO cars on inventory");
+    }
+    
+    System.out.println("\n+++ Discount availables depending of number of rented days  ++++");
+    if(discountRow > 0) {
+      for (int i = 0; i < discountRow; i++) {
+        System.out.print((i + 1) + ") " + specialDiscounts[i][0] + " days to apply for a " + specialDiscounts[i][1] + "% discount\n");
+      }
+    }else{
+      System.out.println("There are currently NO discounts available");
+    }
+    
+    System.out.println("\n Options Available \n1)Show current cars your renting\n2)Reserve a new car\n3)End renting process");
+    String rentingOption =  keyboardInput.nextLine();
+
+    switch(rentingOption){                                                                                         // Desplegamos el menu correspondiente al usuario
+      case "1" -> show_current_rented_cars();
+      case "2" -> reserve_new_car();
+      case "3" -> show_bill();
+      default -> System.out.println("\n❌ Invalid option, try again ❌\n");
+    }
+    client_menu();
   }
+
+  
+  private static void show_current_rented_cars() {
+    
+  }
+  
+  
+  private static void reserve_new_car() {
+    
+  }
+  
+  
+  private static void show_bill() {
+    
+  }
+  
+  
+  
   
 }
