@@ -25,7 +25,7 @@ public class ByteCar {
   
   
   public static void main_menu() {
-    System.out.println("Who are you? \n1)Admin\n2)Client");
+    System.out.println("\nWho are you? \n1)Admin\n2)Client");
     String typeOfUser =  keyboardInput.nextLine();
 
     switch(typeOfUser){                                                                                         // Desplegamos el menu correspondiente al usuario
@@ -53,12 +53,12 @@ public class ByteCar {
   
   
   public static void admin_menu() {
-    System.out.println("\nWelcome to the Admin Menu 👩🏽‍💼\n"
+    System.out.println("\n‍💼👨🏽 Welcome to the Admin Menu 👩🏽‍💼\n"
                         + "\n1. Add new vehicles to inventory.\n"
                         + "2. Add special discounts.\n"
                         + "3. Make a report.\n"
                         + "4. Show users.\n"
-                        + "5. Back to Main Menu.\n");
+                        + "5. Back to Main Menu.");
     while(true){
       String adminOption = keyboardInput.nextLine();
       switch(adminOption){                                                                                         // Desplegamos el menu correspondiente al usuario
@@ -77,7 +77,7 @@ public class ByteCar {
     boolean addNewCar;
     
     do {
-      System.out.println("Enter your car brand");
+      System.out.println("\nEnter your car brand");
       carInventory[carRow][0] = keyboardInput.nextLine();
       
       System.out.println("Enter your car model");
@@ -89,7 +89,7 @@ public class ByteCar {
       validate_license_plate();
       
       double dailyPrice = validate_price();
-      System.out.println("\nPrecio validado: " + dailyPrice);
+      System.out.println("\nPrice per day set: " + dailyPrice);
       carInventory[carRow][4] = Double.toString(dailyPrice);
       
       boolean changeSomeValue = is_confirming("\nDo you want to change any value? (except license plate)"); 
@@ -97,7 +97,7 @@ public class ByteCar {
       if(changeSomeValue) {
         change_specific_value();
       }else{
-        System.out.println("\nRecording entered values...\n");
+        System.out.println("\n 💾💾 Recording entered values... 💾💾\n");
       }
       
       addNewCar = is_confirming("\nDo you want to add new register?"); 
@@ -106,8 +106,8 @@ public class ByteCar {
         carRow++;
       }else{
         carRow++;
-        System.out.println("\nCars on inventory");
-        System.out.println("\n Brand, Model, Year, License, Price/Day");
+        System.out.println("\n🚘🚘 Cars on inventory 🚘🚘");
+        System.out.println("\n   Brand | Model | Year | License | Price/Day");
         for (int i = 0; i < carRow; i++) {
           System.out.print((i + 1) + ") ");
           for (int j = 0; j < 5; j++) {
@@ -128,20 +128,20 @@ public class ByteCar {
                         + "2) Model.\n"
                         + "3) Year.\n"
                         + "4) Daily rent price.\n"
-                        + "5) Don't change anything.\n");
+                        + "5) Don't change anything.");
     try {
       int modifiedColumn = parseInt(keyboardInput.nextLine());
       switch(modifiedColumn){                                                                                         
         case 1 -> {
-          System.out.println("Enter new Brand value: ");
+          System.out.println("\nEnter new Brand value: ");
           carInventory[carRow][0] = keyboardInput.nextLine();
         }
         case 2 -> {
-          System.out.println("Enter new Model value: ");
+          System.out.println("\nEnter new Model value: ");
           carInventory[carRow][1] = keyboardInput.nextLine();
         }
         case 3 -> {
-          System.out.println("Enter new Year value: ");
+          System.out.println("\nEnter new Year value: ");
           carInventory[carRow][2] = keyboardInput.nextLine();
         }
         case 4 -> {
@@ -157,7 +157,7 @@ public class ByteCar {
       change_specific_value();
     }
     
-    System.out.println("NEW VALUES\n");
+    System.out.println("\nNEW VALUES\n");
     for (int i = carRow; i < (carRow + 1); i++) {                           // Solo imprime el registro actualizado
       System.out.print(i+") ");
       for (int j = 0; j < 4; j++) {
@@ -173,13 +173,13 @@ public class ByteCar {
     int percentageDiscount;
     boolean addNewDiscount;
     
-    System.out.println("Special discount");
+    System.out.println("\n٪ Special discounts ٪\n");
     while(true) {
       System.out.println("Add minimun days to quailified for a discount: ");
       try {
         minimunDays = parseInt(keyboardInput.nextLine()); 
       } catch (NumberFormatException e) {
-        System.out.println("❌ Enter a number not a String ❌");
+        System.out.println("\n❌ Enter a number not a String ❌\n");
         continue;
       }
       
@@ -187,16 +187,16 @@ public class ByteCar {
         specialDiscounts[discountRow][0] = minimunDays;
         break;
       }else{
-        System.out.println("❌ Invalid price. Please enter a positive value. ❌");
+        System.out.println("\n❌ Invalid price. Please enter a positive value. ❌\n");
       }
     } 
     
     while(true) {
-      System.out.println("Add percentage of discount (between 1 and 99)");
+      System.out.println("\nAdd percentage of discount (between 1 and 99)");
       try {
         percentageDiscount = parseInt(keyboardInput.nextLine()); 
       } catch (NumberFormatException e) {
-        System.out.println("❌ Enter a number not a String ❌");
+        System.out.println("\n❌ Enter a number not a String ❌\n");
         continue;
       }
       
@@ -204,7 +204,7 @@ public class ByteCar {
         specialDiscounts[discountRow][1] = percentageDiscount; 
         break;
       } else {
-        System.out.println("❌ Invalid input. Please enter a value bewtween 1 and 99. ❌");
+        System.out.println("\n❌ Invalid input. Please enter a value bewtween 1 and 99. ❌\n");
       }
     }
     
@@ -215,8 +215,8 @@ public class ByteCar {
         add_special_discount();
     } else {
       discountRow++;
-      System.out.println("\nCurrent Discounts");
-      System.out.println("\n Minimun Days, Discount percentage");
+      System.out.println("\n٪٪٪ Current Discounts ٪٪٪");
+      System.out.println("\n Minimun Days | Discount percentage");
       for (int i = 0; i < discountRow; i++) {
         System.out.print((i + 1) + ") ");
         for (int j = 0; j < 2; j++) {
@@ -230,12 +230,18 @@ public class ByteCar {
   
     
   public static void make_reports() {
-    System.out.println("Make reports");
+    System.out.println("🚛🚛🚛 First Report by Brand 🚛🚛🚛");
+    System.out.println("Brand    |    Total of rented days");
+    System.out.println("                -------");
+    
+    System.out.println("🚙🚙🚙 First Report by Model 🚙🚙🚙");
+    System.out.println("Model    |    Total of rented days");
+    System.out.println("                -------");
   }
   
     
   public static void show_users() {
-    System.out.println("Lista de Usuarios registrados");
+    System.out.println("\nList of registered users");
     System.out.println("Nit | First name | Last name");
     for (int i = 0; i < userRow; i++) {                           
       System.out.print((i + 1) +") ");
@@ -300,7 +306,7 @@ public class ByteCar {
       if(accountExists) {                      
         client_menu();                                                                                             
       }else{ 
-        System.out.println("\n❌ CREDENCIALES INCORRECTAS, INTENTE OTRA VEZ ❌\n");
+        System.out.println("\n❌ WRONG CREDENTIALS, TRY AGAIN ❌");
       } 
     }else{
       register_new_client();
@@ -310,11 +316,11 @@ public class ByteCar {
   
   
   public static void client_menu() {
-    System.out.println("\nWelcome to ByteCar 🚘\n"
+    System.out.println("\nWelcome to ByteCar 🚘"
                         + "\n1. Register new client.\n"
                         + "2. Log-in as client.\n"
                         + "3. Make a reservation.\n"
-                        + "4. Back to Main Menu.\n");
+                        + "4. Back to Main Menu.");
     while(true){
       String clientOption = keyboardInput.nextLine();
       switch(clientOption){                                                                                         
@@ -329,7 +335,7 @@ public class ByteCar {
   
   
   public static void register_new_client() {
-    System.out.println("Register your new Account");
+    System.out.println("\n+++ Register your new Account +++\n");
     validate_nit();
     
     System.out.println("Enter your first name");
@@ -338,12 +344,13 @@ public class ByteCar {
     System.out.println("Enter your last name");
     usersDatabase[userRow][2] = keyboardInput.nextLine();
     
-    System.out.println("This is your user Data\n");
+    System.out.println("\n 👤 This is your user Data 👤\n");
     for (int i = userRow; i < (userRow + 1); i++) {                           
       System.out.println("Nit | First name | Last name");
       for (int j = 0; j < 3; j++) {
         System.out.print(usersDatabase[i][j] + ", ");
       }
+      System.out.println("");
     }
     userRow++;
   }
@@ -360,7 +367,7 @@ public class ByteCar {
         nitTarget = Integer.toString(inputNIT);
         isNitFound = contains_value(usersDatabase, nitTarget);
       } catch (NumberFormatException e) {
-        System.out.println("❌ Enter a number not a String ❌");
+        System.out.println("\n❌ Enter a number not a String ❌\n");
         continue;
       }
       if (isNitFound) {
@@ -443,7 +450,7 @@ public class ByteCar {
     int carIndex = -1;
     
     do {
-      System.out.println("Enter the license plate of the car you want to rent");
+      System.out.println("\nEnter the license plate of the car you want to rent");
       String licenseTarget = keyboardInput.nextLine(); 
       isLicenseFound = contains_value(carInventory, licenseTarget);
 
@@ -499,7 +506,7 @@ public class ByteCar {
   
   
   public static void showRentedCars() {
-    System.out.println("Rented Cars:");
+    System.out.println("\nRented Cars:");
     for (String[] car : carInventory) {
       if (car[5] != null && car[5].equals("Rented")) {
         System.out.println("Brand: " + car[0] + ", Model: " + car[1] + ", Year: " + car[2] +
@@ -530,7 +537,7 @@ public class ByteCar {
       boolean breakLoop = true;
       do {
       System.out.println(phraseToShow);
-      System.out.println("\n1. Yes\n"                                                                    
+      System.out.println("1. Yes\n"                                                                    
                           + "2. No");
       String continueInput = keyboardInput.nextLine();                                                         
         switch (continueInput) {
