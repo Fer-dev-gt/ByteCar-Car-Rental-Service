@@ -29,14 +29,15 @@ public class ByteCar {
     String typeOfUser =  keyboardInput.nextLine();
 
     switch(typeOfUser){                                                                                         // Desplegamos el menu correspondiente al usuario
-      case "1" -> login_admin();
-      case "2" -> login_client();
+      case "1" -> admin_login();
+      case "2" -> client_login();
       default -> System.out.println("\n❌ Invalid option, try again ❌\n");
     }
   }
   
   
-  public static void login_admin() {
+  // METODOS DEL ADMIN
+  public static void admin_login() {
     System.out.println("\n--> Enter username: ");
     String adminUser = keyboardInput.nextLine();                                                                   
     
@@ -72,48 +73,6 @@ public class ByteCar {
   }
   
   
-  public static void login_client() {
-    boolean haveExistingAccount;
-    boolean accountExists;
-    haveExistingAccount = is_confirming("\nDo you have an account?"); 
-    
-    if(haveExistingAccount){
-      System.out.println("\n--> Enter NIT: ");
-      nitUser = keyboardInput.nextLine();                                                                   
-      accountExists = contains_value(usersDatabase, nitUser);
-      
-      if(accountExists) {                      
-        client_menu();                                                                                             
-      }else{ 
-        System.out.println("\n❌ CREDENCIALES INCORRECTAS, INTENTE OTRA VEZ ❌\n");
-      } 
-    }else{
-      register_new_client();
-      login_client();
-    }
-  }
-  
-  
-  public static void client_menu() {
-    System.out.println("\nWelcome to ByteCar 🚘\n"
-                        + "\n1. Register new client.\n"
-                        + "2. Log-in as client.\n"
-                        + "3. Make a reservation.\n"
-                        + "4. Back to Main Menu.\n");
-    while(true){
-      String clientOption = keyboardInput.nextLine();
-      switch(clientOption){                                                                                         
-        case "1" -> register_new_client();
-        case "2" -> login_client();
-        case "3" -> make_reservation();
-        case "4" -> main_menu();
-        default -> System.out.println("\n❌ Invalid option, try again ❌\n");
-      }
-    }
-  }
-  
-  
-  // METODOS DEL ADMIN
   public static void add_new_vehicle() {
     boolean addNewCar;
     
@@ -162,21 +121,6 @@ public class ByteCar {
     admin_menu();
   }
   
-  
-  public static boolean contains_value(String[][] matrix, String target) {
-    for (String[] row : matrix) {
-      for (String element : row) {
-        try {
-          if (element.equals(target)) {
-            return true;
-          }
-        } catch (NullPointerException e){
-        }
-      }
-    }
-    return false;
-  }
-   
    
   public static void change_specific_value() {
     System.out.println("\nWhat value of the car do you want to modify\n"
@@ -343,6 +287,47 @@ public class ByteCar {
   
   
   // METODOS DEL CLIENTE
+    public static void client_login() {
+    boolean haveExistingAccount;
+    boolean accountExists;
+    haveExistingAccount = is_confirming("\nDo you have an account?"); 
+    
+    if(haveExistingAccount){
+      System.out.println("\n--> Enter NIT: ");
+      nitUser = keyboardInput.nextLine();                                                                   
+      accountExists = contains_value(usersDatabase, nitUser);
+      
+      if(accountExists) {                      
+        client_menu();                                                                                             
+      }else{ 
+        System.out.println("\n❌ CREDENCIALES INCORRECTAS, INTENTE OTRA VEZ ❌\n");
+      } 
+    }else{
+      register_new_client();
+      client_login();
+    }
+  }
+  
+  
+  public static void client_menu() {
+    System.out.println("\nWelcome to ByteCar 🚘\n"
+                        + "\n1. Register new client.\n"
+                        + "2. Log-in as client.\n"
+                        + "3. Make a reservation.\n"
+                        + "4. Back to Main Menu.\n");
+    while(true){
+      String clientOption = keyboardInput.nextLine();
+      switch(clientOption){                                                                                         
+        case "1" -> register_new_client();
+        case "2" -> client_login();
+        case "3" -> make_reservation();
+        case "4" -> main_menu();
+        default -> System.out.println("\n❌ Invalid option, try again ❌\n");
+      }
+    }
+  }
+  
+  
   public static void register_new_client() {
     System.out.println("Register your new Account");
     validate_nit();
@@ -401,7 +386,7 @@ public class ByteCar {
       System.out.println("There are NO cars on inventory");
     }
     
-    System.out.println("\n+++ 🏷️ Discount availables depending of number of rented days 🏷️ ++++");
+    System.out.println("\n+++ 🛍️ Discount availables depending of number of rented days 🛍️ ++++");
     if(discountRow > 0) {
       for (int i = 0; i < discountRow; i++) {
         System.out.print((i + 1) + ") " + specialDiscounts[i][0] + " days to apply for a " + specialDiscounts[i][1] + "% discount\n");
@@ -430,7 +415,6 @@ public class ByteCar {
   
   private static void reserve_new_car() {
     int carIndex = exists_license_plate();
-    
   }
   
   
@@ -465,32 +449,30 @@ public class ByteCar {
 
       if (isLicenseFound) {
         System.out.println("\n✅ The license plate '" + licenseTarget + "' exists on inventory. ✅\n");
-        carIndex = find_car_by_liscense(licenseTarget);
+        carIndex = find_car_by_license(licenseTarget);
         carInventory[carIndex][5] = "";
+        
         if (carInventory[carIndex][5].equals("Rented")){
           System.out.println("❌❌❌ But this car is already rented ❌❌❌");
           continue;
-        } else {
+        }else{
           System.out.println("\n✅ The license plate '" + licenseTarget + "' is for rent. ✅\n");
           carInventory[carIndex][5] = "Rented";
         }
         
         System.out.println("Enter the number of days you want to rent the car '" + licenseTarget + "'");
         int daysOfRent = parseInt(keyboardInput.nextLine());
-        
         String pricePerDayString = carInventory[carIndex][4];
         int pricePerDay = Double.valueOf(pricePerDayString).intValue();
-        System.out.println("Value of Car as INT: " + pricePerDay);
         int carTotalCost = (daysOfRent * pricePerDay);
-        System.out.println("Total of this car per X days: " + pricePerDay);
+        System.out.println("Total cost of this car:\nQ"+ pricePerDay +" per day for " + daysOfRent + " = Q"+ carTotalCost);
         
-        System.out.println(carTotalCost);
+        // AQUI ME QUEDE
         validLicense = true;
       }else{
         System.out.println("\n❌ The license plate '" + licenseTarget + "' is not registered on inventory, try entering another ❌\n");
       }
     } while(!validLicense);
-    
     return carIndex;
   }
   
@@ -505,7 +487,7 @@ public class ByteCar {
   }
   
   
-  public static int find_car_by_liscense(String license) {
+  public static int find_car_by_license(String license) {
     for (int i = 0; i < carInventory.length; i++) {
       if (license.equals(carInventory[i][3])) {
         return i;
@@ -519,7 +501,7 @@ public class ByteCar {
   public static void showRentedCars() {
     System.out.println("Rented Cars:");
     for (String[] car : carInventory) {
-      if (car[6] != null && car[6].equals("Rented")) {
+      if (car[5] != null && car[5].equals("Rented")) {
         System.out.println("Brand: " + car[0] + ", Model: " + car[1] + ", Year: " + car[2] +
                            ", License: " + car[3] + ", Price: " + car[4]);
       }
@@ -528,6 +510,20 @@ public class ByteCar {
   
   
   // Utils
+  public static boolean contains_value(String[][] matrix, String target) {
+    for (String[] row : matrix) {
+      for (String element : row) {
+        try {
+          if (element.equals(target)) {
+            return true;
+          }
+        } catch (NullPointerException e){
+        }
+      }
+    }
+    return false;
+  }
+  
   
   public static boolean is_confirming(String phraseToShow) {
       boolean isContinued = true;
