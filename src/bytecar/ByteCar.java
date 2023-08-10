@@ -10,10 +10,16 @@ public class ByteCar {
   static Scanner keyboardInput = new Scanner(System.in);
   static String[][] carInventory = new String[20][6];
   static String[][] usersDatabase = new String[20][3];
+  static String[][] currentCarOrder = new String[20][6];
   static int[][] specialDiscounts = new int[20][2];
+  static int[] carCostSubTotal = new int[20];
+  static int[] appliedPercentages = new int[20];
   static int carRow = 0;
   static int discountRow = 0;
   static int userRow = 0;
+  static int carOrderRow = 0;
+  static int subTotalIndex = 0;
+  static int appliedPercentagesIndex = 0;
   static String nitUser;
 
   
@@ -97,7 +103,7 @@ public class ByteCar {
       if(changeSomeValue) {
         change_specific_value();
       }else{
-        System.out.println("\n 💾💾 Recording entered values... 💾💾\n");
+        System.out.println("\n 💾💾 Recording entered values... 💾💾");
       }
       
       addNewCar = is_confirming("\nDo you want to add new register?"); 
@@ -160,7 +166,7 @@ public class ByteCar {
     System.out.println("\nNEW VALUES\n");
     for (int i = carRow; i < (carRow + 1); i++) {                           // Solo imprime el registro actualizado
       System.out.print(i+") ");
-      for (int j = 0; j < 4; j++) {
+      for (int j = 0; j < 4; j++) {                                         // Muestra la licencia no el precio nuevo
         System.out.print(carInventory[i][j] + ", ");
       }
       System.out.println();
@@ -317,17 +323,13 @@ public class ByteCar {
   
   public static void client_menu() {
     System.out.println("\nWelcome to ByteCar 🚘"
-                        + "\n1. Register new client.\n"
-                        + "2. Log-in as client.\n"
-                        + "3. Make a reservation.\n"
-                        + "4. Back to Main Menu.");
+                        + "\n1. Go to reservation menu.\n"
+                        + "2. Back to Main Menu.");
     while(true){
       String clientOption = keyboardInput.nextLine();
       switch(clientOption){                                                                                         
-        case "1" -> register_new_client();
-        case "2" -> client_login();
-        case "3" -> make_reservation();
-        case "4" -> main_menu();
+        case "1" -> make_reservation();
+        case "2" -> main_menu();
         default -> System.out.println("\n❌ Invalid option, try again ❌\n");
       }
     }
@@ -383,12 +385,16 @@ public class ByteCar {
   public static void make_reservation() {
     System.out.println("\n+++ 🚖 Available cars 🚖 +++");
     if(carRow > 0) {
-      for (int i = 0; i < carRow ; i++) {                           
-        System.out.print((i+1)+") " + carInventory[i][0] + ", ");
-        System.out.print(carInventory[i][1] + ", ");
-        System.out.print(carInventory[i][4] + ", ");
-        System.out.print(carInventory[i][3] + " \n");
-      }
+        for (int i = 0; i < carRow ; i++) {     
+          if(carInventory[i][5] == "Rented"){
+            System.out.println("--------------------------");
+          }else{
+            System.out.print((i+1)+") " + carInventory[i][0] + ", ");
+            System.out.print(carInventory[i][1] + ", ");
+            System.out.print(carInventory[i][4] + ", ");
+            System.out.print(carInventory[i][3] + " \n");
+          }
+        }
     }else{
       System.out.println("There are NO cars on inventory");
     }
@@ -402,11 +408,11 @@ public class ByteCar {
       System.out.println("There are currently NO discounts available");
     }
     
-    System.out.println("\n Options Available \n1)Show current cars your renting\n2)Reserve a new car\n3)End renting process");
+    System.out.println("\n Options Available \n1)Show current cars you're renting\n2)Reserve a new car\n3)End renting process");
     String rentingOption =  keyboardInput.nextLine();
 
     switch(rentingOption){                                                                                         // Desplegamos el menu correspondiente al usuario
-      case "1" -> showRentedCars();
+      case "1" -> show_current_rented_cars();
       case "2" -> reserve_new_car();
       case "3" -> show_bill();
       default -> System.out.println("\n❌ Invalid option, try again ❌\n");
@@ -416,38 +422,81 @@ public class ByteCar {
 
   
   private static void show_current_rented_cars() {
-    
+    if(carOrderRow > 0) {
+      System.out.println("\nThis is your current list of cars rented");
+      for (int i = 0; i < carOrderRow; i++) {                           
+        System.out.print((i + 1) +") ");
+        for (int j = 0; j < 5; j++) {
+          System.out.print(currentCarOrder[i][j] + ", ");
+        }
+        System.out.println();
+      }
+    }else{
+      System.out.println("YOU HAVE NO CURRENT RENTED CARS");
+    }
   }
   
   
   private static void reserve_new_car() {
-    int carIndex = exists_license_plate();
+    int[] carDetail = exists_license_plate();
+    int carIndex = carDetail[0];
+    
+    boolean orderHasDiscount = check_car_discount(carIndex);
+    
+    if(orderHasDiscount){
+          
+    }
+    
+    make_reservation();
   }
   
   
   private static void show_bill() {
     int userIndex = find_user_by_index(parseInt(nitUser));
+    int subTotal;
+    double decimalDiscount;
+    double totalToPay;
+    double amountDiscount;
+    
     String currentDateTime = print_current_date_time();
     String userNit= usersDatabase[userIndex][0];
     String loggedInUserName = usersDatabase[userIndex][1];
     String loggedInUserLastName = usersDatabase[userIndex][2];
     
-    System.out.println("****** 🚘 ByteCar 🚘 ******");
+    System.out.println("\n\n\n****** 🚘 ByteCar 🚘 ******\n\n");
     System.out.println("Client name: " + loggedInUserName + ' ' + loggedInUserLastName);
     System.out.println("Nit: " + userNit);
     System.out.println("Current date and time: " + currentDateTime);
-    System.out.println("List of cars to rent:\n");
+    System.out.println("\nList of cars to rent:");
+    System.out.println("----------------------------------");
+    for (int i = 0; i < carOrderRow; i++) {                           
+      System.out.println("Brand: " + currentCarOrder[i][0] + "\nModel: " + currentCarOrder[i][1] + "\nLicense: " + currentCarOrder[i][3] 
+                          + "\nDays rented: " +currentCarOrder[i][4] + "\nCost for this car: Q" + carCostSubTotal[subTotalIndex-1]);
+      System.out.println("----------------------------------");
+    }
     
-    System.out.println("Subtotal:");
-    System.out.println("Amount of discount: ");
-    System.out.println("Total to pay: ");
+    subTotal = carCostSubTotal[subTotalIndex-1];
+    System.out.println("\nSubtotal: Q" + subTotal);
+    
+    System.out.println("\nAmount of discount: " + appliedPercentages[appliedPercentagesIndex - 1] + "%");
+
+    decimalDiscount = (double) appliedPercentages[subTotalIndex - 1] / 100;
+    System.out.println("decimalDiscount: " + decimalDiscount);
+    amountDiscount = (subTotal * decimalDiscount);
+    System.out.println("amountDiscount: " + amountDiscount);
+    
+    totalToPay =  subTotal - amountDiscount;
+    totalToPay = convert_to_decimal(totalToPay);
+    System.out.println("Total to pay: Q" + totalToPay);
   }
   
   
-  public static int exists_license_plate() {
+  public static int[] exists_license_plate() {
+    int[] values = new int[2];
     boolean isLicenseFound;
     boolean validLicense = false;
     int carIndex = -1;
+    int daysOfRent;
     
     do {
       System.out.println("\nEnter the license plate of the car you want to rent");
@@ -460,49 +509,49 @@ public class ByteCar {
         carInventory[carIndex][5] = "";
         
         if (carInventory[carIndex][5].equals("Rented")){
-          System.out.println("❌❌❌ But this car is already rented ❌❌❌");
+          System.out.println("❌❌❌ But this car is already rented, try renting another one ❌❌❌");
           continue;
         }else{
-          System.out.println("\n✅ The license plate '" + licenseTarget + "' is for rent. ✅\n");
+          System.out.println("✅ The license plate '" + licenseTarget + "' is for rent. ✅\n");
           carInventory[carIndex][5] = "Rented";
         }
         
-        System.out.println("Enter the number of days you want to rent the car '" + licenseTarget + "'");
-        int daysOfRent = parseInt(keyboardInput.nextLine());
+        do {
+          System.out.println("Enter the number of days you want to rent the car '" + licenseTarget + "'");
+          try {
+            daysOfRent = parseInt(keyboardInput.nextLine());
+            break;
+          } catch(NumberFormatException e){
+            System.out.println("\n❌ Enter a number not a String ❌\n");
+            continue;
+          }
+        }while(true);
+        
+        System.out.println("\n✅ This car has been rented succesfully ✅\n ");
+        currentCarOrder[carOrderRow][0] = carInventory[carIndex][0];
+        currentCarOrder[carOrderRow][1] = carInventory[carIndex][1];
+        currentCarOrder[carOrderRow][2] = carInventory[carIndex][2];
+        currentCarOrder[carOrderRow][3] = carInventory[carIndex][3];
+        currentCarOrder[carOrderRow][4] = Integer.toString(daysOfRent);      // Dias agendados
+        carOrderRow++;
+        
         String pricePerDayString = carInventory[carIndex][4];
         int pricePerDay = Double.valueOf(pricePerDayString).intValue();
         int carTotalCost = (daysOfRent * pricePerDay);
-        System.out.println("Total cost of this car:\nQ"+ pricePerDay +" per day for " + daysOfRent + " = Q"+ carTotalCost);
+        System.out.println("Total cost of this car:\nQ"+ pricePerDay +" per day for " + daysOfRent + " days = Q"+ carTotalCost);
+        carCostSubTotal[subTotalIndex] = carTotalCost;
+        subTotalIndex++;
         
-        // AQUI ME QUEDE
         validLicense = true;
       }else{
         System.out.println("\n❌ The license plate '" + licenseTarget + "' is not registered on inventory, try entering another ❌\n");
+        continue;
       }
+      values[0] = carIndex;
+      values[1] = daysOfRent;
     } while(!validLicense);
-    return carIndex;
+    return values;
   }
-  
-  
-  public static int find_user_by_index(int nit) {
-    for (int i = 0; i < usersDatabase.length; i++) {
-      if (nit == Integer.parseInt(usersDatabase[i][0])) {
-        return i;
-      }
-    }
-    return -1; // User not found
-  }
-  
-  
-  public static int find_car_by_license(String license) {
-    for (int i = 0; i < carInventory.length; i++) {
-      if (license.equals(carInventory[i][3])) {
-        return i;
-      }
-    }
-    return -1; 
-  }
-  
   
   
   public static void showRentedCars() {
@@ -514,6 +563,41 @@ public class ByteCar {
       }
     }
   }
+  
+  
+  public static boolean check_car_discount(int carIndex) {
+    int daysToCheck = parseInt(currentCarOrder[carOrderRow - 1][4]);            // Number of days to check
+    boolean appliesForDiscount = false;
+    int discountPercentage = -1;  // Default value if no match is found
+    
+    System.out.println("This car has been reserved for: " + daysToCheck + " days");
+
+    for (int[] entry : specialDiscounts) {
+      int daysInArray = entry[0];
+      int percentage = entry[1];
+      if (daysToCheck >= daysInArray && percentage > discountPercentage) {
+        appliesForDiscount = true;
+        discountPercentage = percentage;
+      }
+    }
+    
+    if (appliesForDiscount) {
+      System.out.println("\n✅ " + daysToCheck + " days is greater than at least one value in the matrix. ✅\n");
+    } else {
+      System.out.println("\n❌ The amount of days you reserve (" + daysToCheck + ") doesn't apply for a discount. ❌\n");
+    }
+    
+    if (discountPercentage != -1) {
+      System.out.println("\nFor " + daysToCheck + " days, the discount percentage is " + discountPercentage + "%.");
+    } else {
+      System.out.println("\nNo applicable discount percentage found for " + daysToCheck + " days.");
+    }
+    
+    appliedPercentages[appliedPercentagesIndex] = discountPercentage;
+    appliedPercentagesIndex++;
+    return appliesForDiscount; 
+  }
+  
   
   
   // Utils
@@ -565,4 +649,54 @@ public class ByteCar {
     String formattedDateTime = currentDateTime.format(formatter);
     return formattedDateTime;
   }
+  
+  
+  public static int find_user_by_index(int nit) {
+    for (int i = 0; i < usersDatabase.length; i++) {
+      if (nit == Integer.parseInt(usersDatabase[i][0])) {
+        return i;
+      }
+    }
+    return -1; // User not found
+  }
+  
+  
+  public static int find_car_by_license(String license) {
+    for (int i = 0; i < carInventory.length; i++) {
+      if (license.equals(carInventory[i][3])) {
+        return i;
+      }
+    }
+    return -1; 
+  }
+  
+  
+  public static double convert_to_decimal(double manyDecimalsNumber) {
+    String stringValue = Double.toString(manyDecimalsNumber);
+    
+    // Find the index of the decimal point
+    int decimalIndex = stringValue.indexOf('.');
+    
+    // Extract the whole number part and the decimal part
+    String wholeNumberPart = stringValue.substring(0, decimalIndex);
+    String decimalPart = stringValue.substring(decimalIndex + 1);
+    
+    // Ensure the decimal part has at least two characters
+    if (decimalPart.length() < 2) {
+        decimalPart = decimalPart + "00";
+    } else if (decimalPart.length() < 3) {
+        decimalPart = decimalPart + "0";
+    } else {
+        decimalPart = decimalPart.substring(0, 3);
+    }
+    
+    // Format the final string with two decimal places
+    String formattedValue = wholeNumberPart + "." + decimalPart;
+    
+    System.out.println("Original Value: " + manyDecimalsNumber);
+    System.out.println("Formatted Value: " + formattedValue);
+    
+    double formattedValueDouble = Double.parseDouble(formattedValue);
+    return formattedValueDouble;
+    }
 }
