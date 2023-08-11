@@ -11,6 +11,8 @@ public class ByteCar {
   static String[][] carInventory = new String[20][6];
   static String[][] usersDatabase = new String[20][3];
   static String[][] currentCarOrder = new String[20][6];
+  static String[][] mostRentedCarsByBrand = new String[20][2];
+  static String[][] mostRentedCarsByYear = new String[20][2];
   static int[][] specialDiscounts = new int[20][2];
   static int[] carCostSubTotal = new int[20];
   static int[] appliedPercentages = new int[20];
@@ -19,6 +21,9 @@ public class ByteCar {
   static int discountRow = 0;
   static int userRow = 0;
   static int carOrderRow = 0;
+  static int mostRentedCarsByBrandRow = 0;
+  static int mostRentedCarsByBrandRowNew = 1;
+  static int mostRentedCarsByYearRowNew = 1;
   static int subTotalIndex = 0;
   static int appliedPercentagesIndex = 0;
   static int carTotalAfterDiscountIndex = 0;
@@ -232,13 +237,29 @@ public class ByteCar {
   
     
   public static void make_reports() {
-    System.out.println("🚛🚛🚛 First Report by Brand 🚛🚛🚛");
+    System.out.println("\n\n🚛🚛🚛 Most Rented Cars by Brand 🚛🚛🚛");
     System.out.println("Brand    |    Total of rented days");
-    System.out.println("                -------");
+    System.out.println("----------------------------------");
     
-    System.out.println("🚙🚙🚙 First Report by Model 🚙🚙🚙");
+    for (int i = 0; i < mostRentedCarsByBrandRowNew-1; i++) {                           
+      System.out.print((i + 1) +") ");
+      for (int j = 0; j < 2; j++) {
+        System.out.print(mostRentedCarsByBrand[i][j] + ", ");
+      }
+      System.out.println();
+    }
+    
+    System.out.println("\n\n🚙🚙🚙 Most Rented Cars by Year 🚙🚙🚙");
     System.out.println("Model    |    Total of rented days");
-    System.out.println("                -------");
+    System.out.println("----------------------------------");
+    
+    for (int i = 0; i < mostRentedCarsByYearRowNew-1; i++) {                           
+      System.out.print((i + 1) +") ");
+      for (int j = 0; j < 2; j++) {
+        System.out.print(mostRentedCarsByYear[i][j] + ", ");
+      }
+      System.out.println();
+    }
   }
   
     
@@ -292,6 +313,48 @@ public class ByteCar {
   }
   
   
+  public static void report_most_rented_car(String brand, int daysRented){
+    boolean brandFound = false;
+    for (int i = 0; i < mostRentedCarsByBrandRowNew; i++) {
+      if (mostRentedCarsByBrand[i][0] == null) {
+        mostRentedCarsByBrand[i][0] = brand;
+        mostRentedCarsByBrand[i][1] = Integer.toString(daysRented);
+        brandFound = true;
+        break;
+      } else if (mostRentedCarsByBrand[i][0].equals(brand)) {
+        int totalDays = Integer.parseInt(mostRentedCarsByBrand[i][1]) + daysRented;
+        mostRentedCarsByBrand[i][1] = Integer.toString(totalDays);
+        break;
+      } 
+    }
+    
+    if (brandFound) {
+      System.out.println("Nueva marca registrada");
+      mostRentedCarsByBrandRowNew++;
+    }
+  }
+  
+  
+  public static void report_most_rented_year(String carYear, int daysRented){
+    boolean yearFound = false;
+    for (int i = 0; i < mostRentedCarsByYearRowNew; i++) {
+      if (mostRentedCarsByYear[i][0] == null) {
+        mostRentedCarsByYear[i][0] = carYear;
+        mostRentedCarsByYear[i][1] = Integer.toString(daysRented);
+        yearFound = true;
+        break;
+      } else if (mostRentedCarsByYear[i][0].equals(carYear)) {
+        int totalDays = Integer.parseInt(mostRentedCarsByYear[i][1]) + daysRented;
+        mostRentedCarsByYear[i][1] = Integer.toString(totalDays);
+        break;
+      } 
+    }
+    
+    if (yearFound) {
+      System.out.println("Nuevo AÑO registrado");
+      mostRentedCarsByYearRowNew++;
+    }
+  }
   
   
   // METODOS DEL CLIENTE
@@ -469,6 +532,8 @@ public class ByteCar {
           System.out.println("Enter the number of days you want to rent the car '" + licenseTarget + "'");
           try {
             daysOfRent = parseInt(keyboardInput.nextLine());
+            report_most_rented_car(carInventory[carIndex][0], daysOfRent);
+            report_most_rented_year(carInventory[carIndex][2], daysOfRent);
             break;
           } catch(NumberFormatException e) {
             System.out.println("\n❌ Enter a number not a String ❌\n");
