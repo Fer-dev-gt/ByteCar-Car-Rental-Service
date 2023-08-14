@@ -70,7 +70,7 @@ public class ByteCar {
     System.out.println("\n‍💼👨🏽 Welcome to the Admin Menu 👩🏽‍💼\n"
                         + "\n1. Add new vehicles to inventory.\n"
                         + "2. Add special discounts.\n"
-                        + "3. Make a report.\n"
+                        + "3. Make 'Most Rented' car report.\n"
                         + "4. Show users.\n"
                         + "5. Back to Main Menu.");
     while(true){
@@ -566,7 +566,7 @@ public class ByteCar {
         System.out.println();
       }
     }else{
-      System.out.println("YOU HAVE NO CURRENT RENTED CARS");
+      System.out.println("\nYOU HAVE NO CARS ON YOUR SHOPPING CART");
     }
   }
   
@@ -725,6 +725,8 @@ public class ByteCar {
     System.out.println("\n\n\n****** 🚘 ByteCar 🚘 ******\n\n");
     
     // Vaciar Matrix de currentOrder
+    clear_matrix();
+    carOrderRow = 0;
   }
   
   
@@ -833,5 +835,14 @@ public class ByteCar {
     double formattedValueDouble = Double.parseDouble(formattedValue);
     
     return formattedValueDouble;
+  }
+  
+  
+  public static void clear_matrix() {
+    for (int i = 0; i < carOrderRow; i++) {
+      for (int j = 0; j < 5; j++) {
+        currentCarOrder[i][j] = null;
+      }
+    }
   }
 }
