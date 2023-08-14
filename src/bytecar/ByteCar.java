@@ -17,16 +17,16 @@ public class ByteCar {
   static int[] carCostSubTotal = new int[20];
   static int[] appliedPercentages = new int[20];
   static double[] carTotalAfterDiscount = new double[20];
+  static String nitUser;
   static int carRow = 0;
   static int discountRow = 0;
   static int userRow = 0;
   static int carOrderRow = 0;
-  static int mostRentedCarsByBrandRowNew = 1;
-  static int mostRentedCarsByYearRowNew = 1;
   static int subTotalIndex = 0;
   static int appliedPercentagesIndex = 0;
   static int carTotalAfterDiscountIndex = 0;
-  static String nitUser;
+  static int mostRentedCarsByBrandRowNew = 1;
+  static int mostRentedCarsByYearRowNew = 1;
 
   
   public static void main(String[] args) {
@@ -46,6 +46,8 @@ public class ByteCar {
       default -> System.out.println("\n❌ Invalid option, try again ❌\n");
     }
   }
+  
+  
   
   
   // METODOS DEL ADMIN
@@ -179,12 +181,15 @@ public class ByteCar {
     int minimunDays;
     int percentageDiscount;
     boolean addNewDiscount;
+    boolean repeatDiscountInput;
     
     System.out.println("\n٪ Special discounts ٪\n");
     while(true) {
-      System.out.println("Add minimun days to quailified for a discount: ");
       try {
-        minimunDays = parseInt(keyboardInput.nextLine()); 
+        System.out.println("Add minimun days to quailified for a discount: ");
+        minimunDays = parseInt(keyboardInput.nextLine());
+        repeatDiscountInput = check_repeated_discount(minimunDays);
+        if(repeatDiscountInput) continue;
       } catch (NumberFormatException e) {
         System.out.println("\n❌ Enter a number not a String ❌\n");
         continue;
@@ -234,8 +239,24 @@ public class ByteCar {
     admin_menu();
   }
   
+  
+  public static boolean check_repeated_discount(int minimunDaysTarget) {
+    boolean isDiscountFound;
+    isDiscountFound = contains_value_int(specialDiscounts, minimunDaysTarget);
+
+    if (isDiscountFound) {
+      System.out.println("\n❌ The amount of '" + minimunDaysTarget + "' days is already registered, try another amount of days. ❌\n");
+      return true;
+    }else{
+      System.out.println("\n✅ The amount of '" + minimunDaysTarget + "' is not registered on discounts, you're good to go. ✅");
+      specialDiscounts[discountRow][0] = minimunDaysTarget;  
+      return false;
+    }
+  }
+  
     
   public static void make_reports() {
+    bubble_sort_matrix_brand();
     System.out.println("\n\n🚛🚛🚛 Most Rented Cars by Brand 🚛🚛🚛");
     System.out.println("Brand    |    Total of rented days");
     System.out.println("----------------------------------");
@@ -248,6 +269,7 @@ public class ByteCar {
       System.out.println();
     }
     
+    bubble_sort_matrix_year();
     System.out.println("\n\n🚙🚙🚙 Most Rented Cars by Year 🚙🚙🚙");
     System.out.println("Model    |    Total of rented days");
     System.out.println("----------------------------------");
@@ -265,6 +287,7 @@ public class ByteCar {
     
   public static void show_users() {
     System.out.println("\nList of registered users");
+    System.out.println("------------------------------");
     System.out.println("Nit | First name | Last name");
     for (int i = 0; i < userRow; i++) {                           
       System.out.print((i + 1) +") ");
@@ -313,7 +336,7 @@ public class ByteCar {
   }
   
   
-  public static void report_most_rented_car(String brand, int daysRented){
+  public static void make_report_most_rented_car(String brand, int daysRented){
     boolean brandFound = false;
     for (int i = 0; i < mostRentedCarsByBrandRowNew; i++) {
       if (mostRentedCarsByBrand[i][0] == null) {
@@ -335,7 +358,32 @@ public class ByteCar {
   }
   
   
-  public static void report_most_rented_year(String carYear, int daysRented){
+  public static void bubble_sort_matrix_brand() {
+    int n = mostRentedCarsByBrandRowNew-1;
+    boolean swapped;
+        
+    for (int i = 0; i < n - 1; i++) {
+      swapped = false;
+      for (int j = 0; j < n - i - 1; j++) {
+        int currentCount = Integer.parseInt(mostRentedCarsByBrand[j][1]);
+        int nextCount = Integer.parseInt(mostRentedCarsByBrand[j + 1][1]);
+        
+        if (currentCount < nextCount) {                                           // Swap the rows
+          String[] temp = mostRentedCarsByBrand[j];
+          mostRentedCarsByBrand[j] = mostRentedCarsByBrand[j + 1];
+          mostRentedCarsByBrand[j + 1] = temp;
+          swapped = true;
+        }
+      }
+        
+      if (!swapped) {                                                             // If no two elements were swapped in the inner loop, the array is already sorted
+        break;
+      }
+    }
+  }
+  
+  
+  public static void make_report_most_rented_year(String carYear, int daysRented){
     boolean yearFound = false;
     for (int i = 0; i < mostRentedCarsByYearRowNew; i++) {
       if (mostRentedCarsByYear[i][0] == null) {
@@ -355,6 +403,33 @@ public class ByteCar {
       mostRentedCarsByYearRowNew++;
     }
   }
+  
+  
+  public static void bubble_sort_matrix_year() {
+    int n = mostRentedCarsByYearRowNew-1;
+    boolean swapped;
+        
+    for (int i = 0; i < n - 1; i++) {
+      swapped = false;
+      for (int j = 0; j < n - i - 1; j++) {
+        int currentCount = Integer.parseInt(mostRentedCarsByYear[j][1]);
+        int nextCount = Integer.parseInt(mostRentedCarsByYear[j + 1][1]);
+        
+        if (currentCount < nextCount) {                                           // Swap the rows
+          String[] temp = mostRentedCarsByYear[j];
+          mostRentedCarsByYear[j] = mostRentedCarsByYear[j + 1];
+          mostRentedCarsByYear[j + 1] = temp;
+          swapped = true;
+        }
+      }
+        
+      if (!swapped) {                                                           // If no two elements were swapped in the inner loop, the array is already sorted
+        break;
+      }
+    }
+  }
+  
+  
   
   
   // METODOS DEL CLIENTE
@@ -442,7 +517,7 @@ public class ByteCar {
   
   
   public static void make_reservation() {
-    System.out.println("\n+++ 🚖 Available cars 🚖 +++");
+    System.out.println("\n+++ 🚖 Available Cars 🚖 +++");
     if(carRow > 0) {
       for (int i = 0; i < carRow ; i++) {     
         if(carInventory[i][5] == "Rented"){
@@ -498,7 +573,6 @@ public class ByteCar {
   
   private static void reserve_new_car() {
     int carIndex = exists_license_plate();
-    
     check_car_discount(carIndex);
     make_reservation();
   }
@@ -532,8 +606,8 @@ public class ByteCar {
           System.out.println("Enter the number of days you want to rent the car '" + licenseTarget + "'");
           try {
             daysOfRent = parseInt(keyboardInput.nextLine());
-            report_most_rented_car(carInventory[carIndex][0], daysOfRent);
-            report_most_rented_year(carInventory[carIndex][2], daysOfRent);
+            make_report_most_rented_car(carInventory[carIndex][0], daysOfRent);
+            make_report_most_rented_year(carInventory[carIndex][2], daysOfRent);
             break;
           } catch(NumberFormatException e) {
             System.out.println("\n❌ Enter a number not a String ❌\n");
@@ -649,7 +723,12 @@ public class ByteCar {
     TotalBillAfterDiscount = convert_to_decimal(TotalBillAfterDiscount);
     System.out.println("Total to pay: Q" + TotalBillAfterDiscount);
     System.out.println("\n\n\n****** 🚘 ByteCar 🚘 ******\n\n");
+    
+    // Vaciar Matrix de currentOrder
   }
+  
+  
+  
   
   // Utils
   public static boolean contains_value(String[][] matrix, String target) {
@@ -657,6 +736,21 @@ public class ByteCar {
       for (String element : row) {
         try {
           if (element.equals(target)) {
+            return true;
+          }
+        } catch (NullPointerException e){
+        }
+      }
+    }
+    return false;
+  }
+  
+  
+  public static boolean contains_value_int(int[][] matrix, int target) {
+    for (int[] row : matrix) {
+      for (int element : row) {
+        try {
+          if (element == target) {
             return true;
           }
         } catch (NullPointerException e){
