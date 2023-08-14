@@ -21,7 +21,6 @@ public class ByteCar {
   static int discountRow = 0;
   static int userRow = 0;
   static int carOrderRow = 0;
-  static int mostRentedCarsByBrandRow = 0;
   static int mostRentedCarsByBrandRowNew = 1;
   static int mostRentedCarsByYearRowNew = 1;
   static int subTotalIndex = 0;
@@ -244,7 +243,7 @@ public class ByteCar {
     for (int i = 0; i < mostRentedCarsByBrandRowNew-1; i++) {                           
       System.out.print((i + 1) +") ");
       for (int j = 0; j < 2; j++) {
-        System.out.print(mostRentedCarsByBrand[i][j] + ", ");
+        System.out.print(mostRentedCarsByBrand[i][j] + " | ");
       }
       System.out.println();
     }
@@ -256,10 +255,11 @@ public class ByteCar {
     for (int i = 0; i < mostRentedCarsByYearRowNew-1; i++) {                           
       System.out.print((i + 1) +") ");
       for (int j = 0; j < 2; j++) {
-        System.out.print(mostRentedCarsByYear[i][j] + ", ");
+        System.out.print(mostRentedCarsByYear[i][j] + " | ");
       }
       System.out.println();
     }
+    admin_menu();
   }
   
     
@@ -736,10 +736,8 @@ public class ByteCar {
     }
     
     String formattedValue = wholeNumberPart + "." + decimalPart;
-    System.out.println("decimalPart: " + decimalPart);
-    System.out.println("Formatted Value: " + formattedValue);
-    
     double formattedValueDouble = Double.parseDouble(formattedValue);
+    
     return formattedValueDouble;
   }
 }
