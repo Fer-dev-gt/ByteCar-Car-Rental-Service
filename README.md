@@ -16,15 +16,15 @@ ByteCar is a program created with Java with the goal to manage the process to re
 - [Author](#author)
 
 ## Demo and Feautures
-<img width="607" alt="Screenshot 2023-08-25 at 15 58 36" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c0d470b3-2b9f-4762-8c09-462d5585d27b">
+<img width="407" alt="Screenshot 2023-08-25 at 15 58 36" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c0d470b3-2b9f-4762-8c09-462d5585d27b">
 <br>
 ByteCar has a basic admin/client log-in!
 
-<img width="833" alt="Screenshot 2023-08-25 at 15 59 55" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/f04ee70f-aaa6-4b06-a70f-a3efd1eaaaaf">
+<img width="533" alt="Screenshot 2023-08-25 at 15 59 55" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/f04ee70f-aaa6-4b06-a70f-a3efd1eaaaaf">
 <br>
 If you don't have an account registered already you can do it easily 😎
 
-<img width="909" alt="Screenshot 2023-08-25 at 16 02 14" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c7e47062-1108-4365-99a0-cc746cfc1997">
+<img width="709" alt="Screenshot 2023-08-25 at 16 02 14" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c7e47062-1108-4365-99a0-cc746cfc1997">
 <br>
 As an admin you can register any new vehicle to inventory
 
