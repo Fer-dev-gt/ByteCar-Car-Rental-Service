@@ -58,7 +58,7 @@ public class ByteCar {
     System.out.println("\n--> Enter password: ");
     String password = keyboardInput.nextLine();                                                               
     
-    if(adminUser.equals("admin_201801247") && password.equals("201801247")){                      
+    if(adminUser.equals("admin_123") && password.equals("123")){                      
       admin_menu();                                                                       // Abre el menu de admin
     }else{
       System.out.println("\n❌ WRONG CREDENTIALS, TRY AGAIN ❌\n");
