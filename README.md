@@ -16,23 +16,27 @@ ByteCar is a program created with Java with the goal to manage the process to re
 - [Author](#author)
 
 ## Demo and Feautures
-<img width="207" alt="Screenshot 2023-08-25 at 15 58 36" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c0d470b3-2b9f-4762-8c09-462d5585d27b">
+<img width="307" alt="Screenshot 2023-08-25 at 15 58 36" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c0d470b3-2b9f-4762-8c09-462d5585d27b">
+<br>
 ByteCar has a basic admin/client log-in!
 <br>
 
-<img width="333" alt="Screenshot 2023-08-25 at 15 59 55" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/f04ee70f-aaa6-4b06-a70f-a3efd1eaaaaf">
+<img width="380" alt="Screenshot 2023-08-25 at 15 59 55" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/f04ee70f-aaa6-4b06-a70f-a3efd1eaaaaf">
 If you don't have an account registered already you can do it easily 😎
 <br>
 
-<img width="409" alt="Screenshot 2023-08-25 at 16 02 14" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c7e47062-1108-4365-99a0-cc746cfc1997">
+<img width="400" alt="Screenshot 2023-08-25 at 16 02 14" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c7e47062-1108-4365-99a0-cc746cfc1997">
+<br>
 As an admin you can register any new vehicle to inventory
 <br>
 
 <img width="263" alt="Screenshot 2023-08-14 at 15 46 58" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/0668ffb9-43c0-4aa3-816e-98802340c1fe">
-when a client finishes the reservation process it will receive a receipt of the current bill and the amount to pay after discounts
+<br>
+When a client finishes the reservation process it will receive a receipt of the current bill and the amount to pay after discounts
 <br>
 
-<img width="225" alt="Screenshot 2023-08-14 at 15 46 35" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/ff435abe-2300-40bd-acc3-4d644f18cfef">
+<img width="280" alt="Screenshot 2023-08-14 at 15 46 35" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/ff435abe-2300-40bd-acc3-4d644f18cfef">
+<br>
 ByteCar is always generating reports of most rented cars by brand and by year!
 <br>
 
