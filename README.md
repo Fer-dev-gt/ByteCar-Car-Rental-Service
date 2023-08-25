@@ -1,4 +1,4 @@
-<h1 align="center" id="title">ByteCar - Car Rentar Service 🚘</h1>
+<h1 align="center" id="title">🚘 ByteCar - Car Rental Service 🚘</h1>
 ByteCar is a program created with Java with the goal to manage the process to rent a car for a certain number of days, it lets you log-in as either a client or an admin, if you're an admin ByteCat helps with managing your store car inventory by adding new cars, disccount for applicable number of rent days, create a see reports of most used cars and display data of the store's userbase. If you're a client you can create an acount with a simple ID and then you can rent any of the availables cars that the store has on its inventory ByteCar takes charge of creating the receipt that shows all the info of the process and the amount you'll have to pay
 
 <img width="363" alt="Screenshot 2023-08-14 at 15 46 58" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/08686831-3c72-47b5-b4fb-ec6464a40cab">
