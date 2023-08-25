@@ -1,8 +1,7 @@
 <h1 align="center" id="title">🚘 ByteCar - Car Rental Service 🚘</h1>
 ByteCar is a program created with Java with the goal to manage the process to rent a car for a certain number of days, it lets you log-in as either a client or an admin, if you're an admin ByteCat helps with managing your store car inventory by adding new cars, disccount for applicable number of rent days, create a see reports of most used cars and display data of the store's userbase. If you're a client you can create an acount with a simple ID and then you can rent any of the availables cars that the store has on its inventory ByteCar takes charge of creating the receipt that shows all the info of the process and the amount you'll have to pay
 
-<img width="363" alt="Screenshot 2023-08-14 at 15 46 58" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/08686831-3c72-47b5-b4fb-ec6464a40cab">
-
+<img width="363" alt="Screenshot 2023-08-14 at 15 46 58" src="https://github.com/Fer-dev-gt/ByteCar-Car-Rental-Service/assets/119085740/09529d50-940c-4924-80dd-4f3e093a0800">
 
 ## Table of Contents
 
@@ -16,27 +15,27 @@ ByteCar is a program created with Java with the goal to manage the process to re
 - [Author](#author)
 
 ## Demo and Feautures
-<img width="307" alt="Screenshot 2023-08-25 at 15 58 36" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c0d470b3-2b9f-4762-8c09-462d5585d27b">
+<img width="307" alt="Screenshot 2023-08-25 at 16 21 39" src="https://github.com/Fer-dev-gt/ByteCar-Car-Rental-Service/assets/119085740/18f8227d-f5dc-4962-ae17-b3de43d38dad">
 <br>
 ByteCar has a basic admin/client log-in!
 <br>
 
-<img width="380" alt="Screenshot 2023-08-25 at 15 59 55" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/f04ee70f-aaa6-4b06-a70f-a3efd1eaaaaf">
+<img width="380" alt="Screenshot 2023-08-25 at 16 22 26" src="https://github.com/Fer-dev-gt/ByteCar-Car-Rental-Service/assets/119085740/61454dc3-7d4c-4f8c-bfb2-dac29e04554b">
 <br>
 If you don't have an account registered already you can do it easily 😎
 <br>
 
-<img width="400" alt="Screenshot 2023-08-25 at 16 02 14" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/c7e47062-1108-4365-99a0-cc746cfc1997">
+<img width="400" alt="Screenshot 2023-08-25 at 16 23 03" src="https://github.com/Fer-dev-gt/ByteCar-Car-Rental-Service/assets/119085740/4d2474d4-11e1-46e2-8e29-f1c44362ca35">
 <br>
 As an admin you can register any new vehicle to inventory
 <br>
 
-<img width="263" alt="Screenshot 2023-08-14 at 15 46 58" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/0668ffb9-43c0-4aa3-816e-98802340c1fe">
+<img width="363" alt="Screenshot 2023-08-14 at 15 46 58" src="https://github.com/Fer-dev-gt/ByteCar-Car-Rental-Service/assets/119085740/09529d50-940c-4924-80dd-4f3e093a0800">
 <br>
 When a client finishes the reservation process it will receive a receipt of the current bill and the amount to pay after discounts
 <br>
 
-<img width="280" alt="Screenshot 2023-08-14 at 15 46 35" src="https://github.com/Fer-dev-gt/IPC1_S12023_Practica1_201801247/assets/119085740/ff435abe-2300-40bd-acc3-4d644f18cfef">
+<img width="325" alt="Screenshot 2023-08-14 at 15 46 35" src="https://github.com/Fer-dev-gt/ByteCar-Car-Rental-Service/assets/119085740/3a185ce8-9ae8-4d01-8c24-112124224752">
 <br>
 ByteCar is always generating reports of most rented cars by brand and by year!
 <br>
